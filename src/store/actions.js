@@ -2,7 +2,7 @@
 import {
     RECEIVE_ADDRESS, RECEIVE_FOODS, RECEIVE_SHOPS,
     RECEIVE_USER_INFO, RECEIVE_GOODS, RECEIVE_RATINGS,
-    RECEIVE_INFO,
+    RECEIVE_INFO, INCEREMENT_FOOD_COUNT, DECEREMENT_FOOD_COUNT,
 } from './mutation-types'
 import {
     reqAddress, reqFoodTypes, reqShops, reqUserInfo,
@@ -70,6 +70,13 @@ export default {
             commit(RECEIVE_INFO, { info })
             //如果组件接收了回调后表示数据成功更新,通过回调通知组件
             callback && callback()
+        }
+    },
+    updateFoodCount({ commit }, { isAdd, food }) {
+        if (isAdd) {
+            commit(INCEREMENT_FOOD_COUNT, { food })
+        } else {
+            commit(DECEREMENT_FOOD_COUNT, { food })
         }
     },
 }
