@@ -15,7 +15,7 @@ export default function ajax(url, data = {}, type = "get") {
     // }
     // request.send()
     //算了，传参太几把麻烦了，，，淦，用了axios还不是去拼串
-    return new Promise(function (resolve,reject) {
+    return new Promise(function (resolve, reject) {
         type = type.toLowerCase()
         let promise = null
         if (type === "get") {

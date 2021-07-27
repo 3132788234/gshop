@@ -3,6 +3,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
+import './mock/mockServer.js'
+
 import '../static/reset.css'
 
-createApp(App).use(router).use(store).mount('#app')
+createApp(App).use(store).use(router).mount('#app')

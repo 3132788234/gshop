@@ -6,6 +6,11 @@ import Profile from '../pages/Profile/Profile.vue'
 import Search from '../pages/Search/Search.vue'
 import Login from '../pages/Login/Login.vue'
 
+import Shop from '../pages/Shop/Shop.vue'
+import ShopGoods from '../pages/Shop/ShopGoods/ShopGoods.vue'
+import ShopRatings from '../pages/Shop/ShopRatings/ShopRatings.vue'
+import ShopInfo from '../pages/Shop/ShopInfo/ShopInfo.vue'
+
 const routes = [
   {
     path: '/',
@@ -52,6 +57,32 @@ const routes = [
     component: Login,
   },
 
+  {
+    path: '/shop',
+    name: 'Shop',
+    component: Shop,
+    children: [
+      {
+        path: '/shop/goods',
+        name: 'ShopGoods',
+        component: ShopGoods,
+      },
+      {
+        path: '/shop/ratings',
+        name: 'ShopRatings',
+        component: ShopRatings,
+      },
+      {
+        path: '/shop/info',
+        name: 'ShopInfo',
+        component: ShopInfo,
+      },
+      {
+        path: '',
+        redirect: '/shop/goods',
+      },
+    ],
+  },
 ]
 
 const router = createRouter({

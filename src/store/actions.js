@@ -1,6 +1,13 @@
 // 通过mutations间接更新state的多个方法的对象    
-import { RECEIVE_ADDRESS, RECEIVE_FOODS, RECEIVE_SHOPS } from './mutation-types'
-import { reqAddress,reqFoodTypes,reqShops } from '../api/index'
+import {
+    RECEIVE_ADDRESS, RECEIVE_FOODS, RECEIVE_SHOPS,
+    RECEIVE_USER_INFO, RECEIVE_GOODS, RECEIVE_RATINGS,
+    RECEIVE_INFO,
+} from './mutation-types'
+import {
+    reqAddress, reqFoodTypes, reqShops, reqUserInfo,
+    reqShopGoods, reqShopRatings, reqShopInfo,
+} from '../api/index'
 
 export default {
     async getAddress({ commit,state }) {
@@ -18,11 +25,51 @@ export default {
             commit(RECEIVE_FOODS, {foods})
         }
     },
-    async getShops({ commit,state }) {
-        const result = await reqShops(state.longitude,state.latitude)
+    async getShops({ commit, state }) {
+        const { longitude,latitude } = state
+        const result = await reqShops(longitude,latitude)
         if (result.code === 0) {
             const shops = result.data
             commit(RECEIVE_SHOPS, {shops})
         }
-    }
+    },
+
+    recordUserInfo({ commit }, userInfo ) {
+        commit(RECEIVE_USER_INFO, {userInfo})
+    },
+    async getUserInfo({ commit }) {
+        const result = await reqUserInfo()
+        if (result.code === 0) {
+            const userInfo = result.data
+            commit(RECEIVE_USER_INFO, {userInfo})
+        }
+    },
+    async getShopGoods({ commit }, callback) {
+        const result = await reqShopGoods()
+        if (result.code === 0) {
+            const goods = result.data
+            commit(RECEIVE_GOODS, { goods })
+            //如果组件接收了回调后表示数据成功更新,通过回调通知组件
+            callback && callback()
+        }
+    },
+    async getShopRatings({ commit }, callback) {
+        const result = await reqShopRatings()
+        if (result.code === 0) {
+            const ratings = result.data
+            commit(RECEIVE_RATINGS, { ratings })
+            //如果组件接收了回调后表示数据成功更新,通过回调通知组件
+            callback && callback()
+        }
+    },
+    async getShopInfo({ commit }, callback) {
+        const result = await reqShopInfo()
+        if (result.code === 0) {
+            const info = result.data
+            // info.sorce = 3.5
+            commit(RECEIVE_INFO, { info })
+            //如果组件接收了回调后表示数据成功更新,通过回调通知组件
+            callback && callback()
+        }
+    },
 }
