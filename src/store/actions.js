@@ -3,10 +3,12 @@ import {
     RECEIVE_ADDRESS, RECEIVE_FOODS, RECEIVE_SHOPS,
     RECEIVE_USER_INFO, RECEIVE_GOODS, RECEIVE_RATINGS,
     RECEIVE_INFO, INCEREMENT_FOOD_COUNT, DECEREMENT_FOOD_COUNT,
+    RESET_USER_INFO,RESET_CART_FOODS,RECEIVE_SEARCH_SHOPS,
 } from './mutation-types'
 import {
     reqAddress, reqFoodTypes, reqShops, reqUserInfo,
-    reqShopGoods, reqShopRatings, reqShopInfo,
+    reqShopGoods, reqShopRatings, reqShopInfo, reqLoginOut,
+    reqSearchShops,
 } from '../api/index'
 
 export default {
@@ -79,4 +81,23 @@ export default {
             commit(DECEREMENT_FOOD_COUNT, { food })
         }
     },
+    //登出
+    async loginOut({ commit }) {
+        const result = await reqLoginOut()
+        if (result.code === 0) {
+            commit(RESET_USER_INFO)
+        }
+    },
+    //清空购物车
+    clearCart({ commit }) {
+        commit(RESET_CART_FOODS)
+    },
+    async getSearchShops({ commit,state }, keyword) {
+        const geohash = state.latitude + "," + state.longitude
+        const result = await reqSearchShops(geohash,keyword)
+        if (result.code === 0) {
+            const searchShops = result.data
+            commit(RECEIVE_SEARCH_SHOPS, { searchShops })
+        }
+    }
 }

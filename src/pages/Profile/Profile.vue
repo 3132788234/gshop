@@ -89,19 +89,37 @@
             </div>
           </a>
         </section>
+        <section class="profile_my_order border-1px">
+          <van-button class="loginOut" type="danger" v-if="userInfo._id"
+            @click="showWarring">退出登录</van-button>
+        </section>
       </section>
 </template>
 
 <script>
 import HeaderTop from '../../components/HeaderTop/HeaderTop.vue'
 import { mapState } from 'vuex'
+import { Dialog,Notify } from 'vant'
 
 export default {
   components:{
-    HeaderTop
+    HeaderTop,
   },
   computed:{
-    ...mapState(['userInfo'])
+    ...mapState(['userInfo']),
+  },
+  methods:{
+    showWarring(){
+      Dialog.confirm({ 
+        title: "警告!",
+        message: "是否退出登录",
+      }).then(()=>{
+        this.$store.dispatch("loginOut")
+        Notify("已退出登录")
+      }).catch(()=>{
+        return
+      })
+    },
   }
 }
 </script>
@@ -274,6 +292,9 @@ export default {
           }
         }
       }
+    }
+    .loginOut{
+      width: 100%;
     }
   }
 }
